@@ -153,7 +153,7 @@ int waf_remove_rule(uint32_t rule_id) {
 int waf_load_default_rules() {
     // This will load built-in rules for common attacks
     // Implementation should depend on your rule format
-    
+
     // Placeholder for actual implementation
     waf_rule_t default_rules[] = {
         // SQL Injection patterns
@@ -188,7 +188,7 @@ void waf_cleanup() {
 // Get current statistics
 waf_stats_t waf_get_stats() {
     waf_stats_t stats_copy;
-    
+
     pthread_mutex_lock(&stats_lock);
     stats_copy = waf_stats;
     pthread_mutex_unlock(&stats_lock);
