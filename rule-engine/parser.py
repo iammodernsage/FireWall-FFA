@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class RuleParser:
     """Rule parser with validation and transformation capabilities (note: still working on making it more reliable)"""
-    
+
     # Schema for rule validation
     RULE_SCHEMA = {
         "type": "object",
@@ -91,7 +91,7 @@ class RuleParser:
             raise ValueError(f"Invalid regex pattern: {str(e)}")
 
     def _validate_ip(self, ip: str) -> bool:
-        """Validate an IP address or CIDR range"""
+        """Validate an IP address or CIDR (refer wiki for more) range"""
         try:
             ipaddress.ip_network(ip, strict=False)
             return True
@@ -173,7 +173,7 @@ class RuleParser:
             if not isinstance(rules, list):
                 rules = [rules]
 
-            # Validate and normalize each rule
+
             validated_rules = []
             for rule in rules:
                 if self.validate_rule(rule):
@@ -188,7 +188,7 @@ class RuleParser:
             raise ValueError(f"Invalid rule file format: {str(e)}")
 
     def _normalize_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
-        """Normalize rule structure and set defaults"""
+
         normalized = {
             "id": rule["id"],
             "action": rule["action"],
@@ -205,10 +205,9 @@ class RuleParser:
         return normalized
 
     def _normalize_condition(self, condition: Dict[str, Any]) -> Dict[str, Any]:
-        """Normalize condition structure"""
+
         normalized = condition.copy()
 
-        # Handle nested conditions
         if "and" in condition:
             normalized["and"] = [self._normalize_condition(c) for c in condition["and"]]
         if "or" in condition:
@@ -219,7 +218,7 @@ class RuleParser:
         return normalized
 
     def load_rules_from_dir(self, dir_path: Union[str, Path]) -> Dict[str, Dict[str, Any]]:
-        """Load all rules from a directory"""
+
         path = Path(dir_path)
         if not path.is_dir():
             raise NotADirectoryError(f"Not a directory: {dir_path}")
@@ -248,7 +247,7 @@ class RuleParser:
         return rules
 
     def match_condition(self, condition: Dict[str, Any], context: Dict[str, Any]) -> bool:
-        """Evaluate a condition against context data"""
+
         if "and" in condition:
             return all(self.match_condition(c, context) for c in condition["and"])
         if "or" in condition:
@@ -310,6 +309,7 @@ class RuleParser:
 
     def evaluate_rule(self, rule: Dict[str, Any], context: Dict[str, Any]) -> bool:
         """Evaluate a rule against context data"""
+
         if not rule.get("enabled", True):
             return False
 
