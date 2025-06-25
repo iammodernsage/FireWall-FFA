@@ -1,7 +1,7 @@
 /*Header File*/
 
 #ifndef FireWall_FFA_WAF_H
-#define FireWall_FFA_WAF_H
+#define FIREWALL_FFA_WAF_H
 
 #include <stdint.h>
 #include <stddef.h>
