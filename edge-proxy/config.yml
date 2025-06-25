@@ -1,0 +1,29 @@
+# edge-proxy/config.yml
+http:
+  port: 80
+  enabled: true
+
+https:
+  port: 443
+  enabled: true
+  cert: /path/to/cert.pem
+  key: /path/to/key.pem
+
+backends:
+  - host: backend1.example.com # needs to be change
+    port: 8080
+    ssl: false
+    weight: 50
+
+  - host: backend2.example.com # needs to be changed
+    port: 8081
+    ssl: true
+    weight: 50
+
+waf:
+  rules_dir: /etc/FireWall-FFA/waf_rules
+  enabled: true
+
+logging:
+  level: info
+  file: /var/log/FireWall-FFA.log
