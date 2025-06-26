@@ -1,0 +1,7 @@
+{
+    "database_path": "/var/lib/FireWall-FFA/ip_reputation.db",
+    "feeds_path": "/etc/FireWall-FFA/ip-reputation/feeds",
+    "update_interval": 3600,
+    "max_cache_size": 100000,
+    "default_ttl": 86400
+}
