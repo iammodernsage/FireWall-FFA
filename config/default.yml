@@ -1,0 +1,56 @@
+# ===================== FireWall-FFA Default Configuration =====================
+
+firewall:
+  mode: "active"        # Options: active, passive
+  interface: "eth0"     # Network interface to bind to (use "any" for all)
+  inspect_tls: true     # Enable TLS inspection and SNI/JA3 parsing
+  log_traffic: true     # Enable full traffic logging
+  rule_reload_interval: 60  # Time in seconds to auto-reload rules
+
+logging:
+  level: "INFO"                   # Options: DEBUG, INFO, WARNING, ERROR
+  format: "yaml"                  # Options: yaml, html
+  output: "/var/log/FireWall-FFA.log"
+  rotate: true
+  max_size_mb: 10
+  backup_count: 5
+
+rules:
+  - id: "rule_001"
+    description: "Block requests to /admin"
+    match:
+      method: "POST"
+      uri: "/admin"
+    action: "deny"
+  - id: "rule_002"
+    description: "Block traffic from malicious IP"
+    match:
+      src_ip: "185.11.25.34"
+    action: "deny"
+  - id: "rule_003"
+    description: "Allow health check"
+    match:
+      uri: "/health"
+    action: "allow"
+
+reputation_engine:
+  enabled: true
+  feeds:
+    - name: "AbuseIPDB"
+      type: "url"
+      source: "https://example.com/abuseipdb.json"
+      refresh_interval: 3600
+
+plugins:
+  enabled: true
+  directory: "plugin-sdk/plugins/"
+  allowed:
+    - "rate_limiter"
+    - "sql_injection_detector"
+
+tls_inspection:
+  ja3_fingerprinting: true
+  extract_sni: true
+  block_invalid_handshakes: true
+
+# =================================================================================
