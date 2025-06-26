@@ -1,0 +1,208 @@
+# log-manager/log_schema.yaml
+
+# Core schema version
+version: 1.0.0
+last_updated: 2025-06-25
+
+# Log type definitions
+log_types:
+  waf:
+    description: "WAF security events and rule matches"
+    fields:
+      - name: timestamp
+        type: datetime
+        format: rfc3339
+        required: true
+        description: "Event occurrence time in UTC"
+
+      - name: event_type
+        type: string
+        required: true
+        enum: ["block", "allow", "challenge", "detect"]
+        description: "Action taken by WAF"
+
+      - name: source_ip
+        type: string
+        format: ip
+        required: true
+        description: "Client IP address"
+
+      - name: request_uri
+        type: string
+        required: true
+        max_length: 2048
+        description: "Request URI path"
+
+      - name: rule_id
+        type: string
+        pattern: "^[A-Za-z0-9-_]+$"
+        required: true
+        description: "Matched rule identifier"
+
+      - name: severity
+        type: string
+        enum: ["low", "medium", "high", "critical"]
+        default: "medium"
+
+      - name: user_agent
+        type: string
+        max_length: 512
+
+      - name: country_code
+        type: string
+        pattern: "^[A-Z]{2}$"
+
+      - name: request_bytes
+        type: integer
+        min: 0
+
+      - name: response_bytes
+        type: integer
+        min: 0
+
+      - name: processing_time_ms
+        type: integer
+        min: 0
+        description: "Request processing time in milliseconds"
+
+  access:
+    description: "HTTP access logs"
+    fields:
+      - name: timestamp
+        type: datetime
+        format: rfc3339
+        required: true
+
+      - name: client_ip
+        type: string
+        format: ip
+        required: true
+
+      - name: method
+        type: string
+        enum: ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"]
+        required: true
+
+      - name: uri
+        type: string
+        required: true
+        max_length: 2048
+
+      - name: status
+        type: integer
+        min: 100
+        max: 599
+        required: true
+
+      - name: user_agent
+        type: string
+        max_length: 512
+
+      - name: referrer
+        type: string
+        max_length: 1024
+
+      - name: protocol
+        type: string
+        enum: ["HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/3"]
+
+  audit:
+    description: "Administrative actions and configuration changes"
+    fields:
+      - name: timestamp
+        type: datetime
+        format: rfc3339
+        required: true
+
+      - name: user
+        type: string
+        pattern: "^[a-zA-Z0-9-_]+$"
+        required: true
+
+      - name: action
+        type: string
+        required: true
+        enum: ["create", "update", "delete", "login", "logout"]
+
+      - name: target
+        type: string
+        description: "Entity being modified"
+
+      - name: parameters
+        type: object
+        description: "Action-specific parameters"
+
+# Common field definitions (referenced via $ref)
+common_fields:
+  host_id:
+    type: string
+    pattern: "^[a-zA-Z0-9-_.]+$"
+    description: "Identifier of the host generating the log"
+
+  log_id:
+    type: string
+    format: uuid
+    required: true
+    description: "Unique identifier for the log entry"
+
+  checksum:
+    type: string
+    pattern: "^[a-f0-9]{64}$"
+    description: "SHA-256 hash of log content"
+
+# Field type definitions
+field_types:
+  ip:
+    validation: |
+      function(value) {
+        return /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$|^[0-9a-fA-F:]+$/.test(value);
+      }
+
+  uuid:
+    validation: |
+      function(value) {
+        return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+      }
+
+# Retention policies
+retention:
+  default: 30d  # 30 days
+  overrides:
+    - type: waf
+      period: 90d
+    - type: audit
+      period: 365d
+
+# Compression settings
+compression:
+  algorithm: zstd
+  level: 3
+  dictionary: /etc/betterfirewall/zstd_logs.dict
+
+# Encryption settings
+encryption:
+  enabled: true
+  algorithm: aes-256-gcm
+  key_rotation: 90d
+
+# Schema validation rules
+validation:
+  strict_mode: false  # Whether to reject unknown fields
+  max_depth: 10       # Maximum nesting depth for objects
+  max_length: 8192    # Maximum line length before compression
+
+# Indexing suggestions (for search optimization)
+indexes:
+  - fields: [timestamp, event_type]
+    types: [waf, audit]
+
+  - fields: [client_ip, timestamp]
+    types: [access, waf]
+
+# Metadata for schema management
+metadata:
+  maintainer: "security-team@yourdomain.com"
+  changelog: |
+    1.2.0 - Added country_code field to WAF logs
+    1.1.0 - Implemented log encryption standards
+    1.0.0 - Initial schema version

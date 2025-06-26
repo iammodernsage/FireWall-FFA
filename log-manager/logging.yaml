@@ -1,0 +1,17 @@
+logging:
+  log_dir: /var/log/FireWall-FFA
+  max_file_size: 104857600
+  retention_days: 30
+  rotation_interval: daily  # or hourly
+  compression: zstd  # or gzip, none
+  max_queue_size: 10000
+  file_permissions: 0640
+  host_id: waf-node-1
+  log_format: json
+  buffer_size: 8192
+  enable_checksum: true
+  enable_encryption: true
+  encryption_key_path: /etc/FireWall-FFA/logging.key
+  zstd_dict_path: /etc/FireWall-FFA/zstd.dict
+  metrics_enabled: true
+  metrics_port: 9091
