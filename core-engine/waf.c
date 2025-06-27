@@ -6,6 +6,9 @@
 #include <string.h>
 #include <time.h>
 #include <pthread.h>
+#include "tls_parser.h"
+#include "sni_extractor.h"
+#include "ja3_fingerprint.h"
 
 // Global configuration
 waf_config_t global_config;
@@ -60,6 +63,31 @@ waf_action_t waf_process_request(const waf_http_request_t *request) {
 
     waf_action_t final_action = WAF_ACTION_ALLOW;
     waf_match_t match;
+
+    // TLS Inspection Integration
+    // If this is a TLS request (you may detect via port 443 or content-type)
+
+    if (request->is_tls) {
+        tls_info_t tls_info;
+        memset(&tls_info, 0, sizeof(tls_info_t));
+
+        if (parse_tls(&request->payload, &tls_info) == 0) {
+            // Log or act based on SNI
+            if (tls_info.sni) {
+                printf("[*] Extracted SNI: %s\n", tls_info.sni);
+                // You can apply SNI-based rules here as per your convenience
+            }
+
+            // JA3 fingerprinting
+            char ja3_hash[36];  // enough for MD5
+            if (generate_ja3_fingerprint(&tls_info, ja3_hash, sizeof(ja3_hash)) == 0) {
+                printf("[*] JA3 Fingerprint: %s\n", ja3_hash);
+                // Apply fingerprint-based rules or blacklist
+            }
+        } else {
+            fprintf(stderr, "[!] Failed to parse TLS ClientHello\n");
+        }
+    }
 
     // Lock rules for reading
     pthread_rwlock_rdlock(&rules_lock);
