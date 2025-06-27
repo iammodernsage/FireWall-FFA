@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <stdio.h>
 
 // TLS Constants
 #define TLS_HEADER_LENGTH 5
