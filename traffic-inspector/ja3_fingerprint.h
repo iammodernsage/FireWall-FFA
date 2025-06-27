@@ -22,6 +22,9 @@
 #define JA3_ERROR_INVALID_EXTENSION -13
 #define JA3_ERROR_MEMORY -14
 
+#define JA3_HASH_LEN 32
+#define JA3_HASH_STRING_LEN (JA3_HASH_LEN * 2 + 1) // MD5 as hex + null
+
 // JA3 data structure
 typedef struct {
     uint16_t tls_version;
