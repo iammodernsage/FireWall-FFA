@@ -25,7 +25,7 @@ static int read_bytes(tls_buffer_t *buf, uint8_t *dest, size_t length);
 static int skip_bytes(tls_buffer_t *buf, size_t length);
 
 // Main TLS parsing function
-int parse_tls(const uint8_t *data, size_t length, tls_info_t *info) {
+int parse_tls(const uint8_t *data, size_t len, tls_info_t *info) {
     if (!data || length < TLS_HEADER_LENGTH || !info) {
         return TLS_PARSE_ERROR;
     }

@@ -27,6 +27,9 @@ typedef struct {
     size_t body_length;
     const char *remote_ip;
     const char *hostname;
+    const char *payload;
+    size_t payload_len;
+    int is_tls; //flag from proxy or traffic inspector
 } waf_http_request_t;
 
 // WAF rule definition
@@ -52,13 +55,6 @@ typedef struct {
     int performance_mode;  // Trade security for speed
     // Add more configuration options as needed
 } waf_config_t;
-
-// TLS
-typedef struct {
-    const char *payload;
-    size_t payload_len;
-    int is_tls; //flag from proxy or traffic inspector
-} waf_http_request_t;
 
 // WAF statistics
 typedef struct {

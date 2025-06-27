@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <time.h>
 
 #define SNI_EXTRACT_SUCCESS                   0
 #define SNI_EXTRACT_NO_SNI                   -1
@@ -20,7 +21,7 @@
 #define SNI_EXTRACT_INVALID_EXTENSION        -13
 #define SNI_EXTRACT_INVALID_SNI              -14
 
-int extract_sni(const unit8_t *data, size_t len, char *sni);
+int extract_sni(const uint8_t *data, size_t len, char *sni);
 
 void process_packet(const uint8_t *data, size_t len) {
     char sni[256] = {0};
@@ -38,3 +39,5 @@ void process_packet(const uint8_t *data, size_t len) {
             break;
     }
 }
+
+#endif
