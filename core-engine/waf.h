@@ -1,6 +1,6 @@
 /*Header File*/
 
-#ifndef FireWall_FFA_WAF_H
+#ifndef FIREWALL_FFA_WAF_H
 #define FIREWALL_FFA_WAF_H
 
 #include <stdint.h>
@@ -52,6 +52,13 @@ typedef struct {
     int performance_mode;  // Trade security for speed
     // Add more configuration options as needed
 } waf_config_t;
+
+// TLS
+typedef struct {
+    const char *payload;
+    size_t payload_len;
+    int is_tls; //flag from proxy or traffic inspector
+} waf_http_request_t;
 
 // WAF statistics
 typedef struct {
