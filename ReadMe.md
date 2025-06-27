@@ -44,4 +44,47 @@ This is an open source & a free for all web application firewall program.
 | rule engine | Extensible DSL or Suricata compatible rule support |
 | plugin sdk | Easily build and load custom modules |
 
+## To Install:
 
+$ git clone https://github.com/iammodernsage/FireWall-FFA.git
+
+$ cd FireWall-FFA
+
+$ make build
+
+$ python cli-tool/firewallctl.py start
+
+-----------------------------------------
+
+* Control the firewall using:
+ - firewallctl.py start
+ - firewallctly.py stop
+ - firewallctl.py status
+ - firewallctl.py reload *
+
+-----------------------------------------
+
+* Install Systemd Service:
+ - bash scripts/install.sh
+ - y
+ - sudo systemctl start FireWall-FFA
+ - sudo systemctl enable FireWall-FFA
+ - sudo systemctl status FireWall-FFA *
+
+-----------------------------------------
+
+## Default Rule Set
+
+ - FireWall-FFA ships with built-in rules for:
+  - SQLi
+  - XSS
+  - Path Traversal
+  - JA3 hash-based fingerprint detection
+  - SNI based domain blocking
+
+-------------------------------------------
+
+## Extend or Replace rules using
+
+ - rule-engine/parser.py
+ - config/default.yml
