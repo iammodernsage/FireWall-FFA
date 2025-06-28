@@ -1,19 +1,63 @@
 # Makefile for FireWall-FFA
 
-CC = gcc
-CFLAGS = -Wall -Icore-engine -Itraffic-inspector
-BIN = core-engine/waf
+CC := gcc
+PKG_CONFIG := pkg-config
 
-SRC_CORE = core-engine/waf.c core-engine/waf-rules.c
-SRC_TLS  = traffic-inspector/ja3-fingerprint.c traffic-inspector/sni-extractor.c traffic-inspector/tls-parser.c
-SRC_ALL  = $(SRC_CORE) $(SRC_TLS)
+# Compiler flags
 
-.PHONY: all build clean run install
+CFLAGS := -Wall -Wextra -O2 -std=c11 \
+          -Icore-engine -Itraffic-inspector
 
-all: build
+# Linker flags (dynamically pulled from pkg-config)
 
-build:
-	$(CC) $(CFLAGS) $(SRC_ALL) -o $(BIN)
+OPENSSL_CFLAGS := $(shell $(PKG_CONFIG) --cflags openssl)
+OPENSSL_LDFLAGS := $(shell $(PKG_CONFIG) --libs openssl)
+
+LDFLAGS := $(OPENSSL_LDFLAGS) -lpcre
+CFLAGS += $(OPENSSL_CFLAGS)
+
+# Target name
+
+TARGET := FireWall-FFA
+
+# Source files
+SRC_CORE := core-engine/waf.c \
+            core-engine/waf-rules.c
+
+SRC_INSPECTOR := traffic-inspector/ja3-fingerprint.c \
+                 traffic-inspector/tls-parser.c \
+                 traffic-inspector/sni-extractor.c
+
+SRC := $(SRC_CORE) $(SRC_INSPECTOR)
+OBJ := $(SRC:.c=.o)
+
+# Default build
+
+all: $(TARGET)
+
+# Link object files into final binary
+
+$(TARGET): $(OBJ)
+	$(CC) $(OBJ) -o $@ $(LDFLAGS)
+
+# Compile C files to object files
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Debug build
+
+debug: CFLAGS += -g -DDEBUG
+debug: clean all
+
+# Clean build artifacts
+
+clean:
+	rm -f $(OBJ) $(TARGET)
+
+# Phony targets
+
+.PHONY: all clean debug
 
 run:
 	python3 cli-tool/firewallctl.py start
