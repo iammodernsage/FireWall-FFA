@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <time.h>
 
 // Return codes
 #define WAF_OK 0

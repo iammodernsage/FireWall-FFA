@@ -6,6 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include <pthread.h>
+#include "internal_rule.h"
 #include "tls_parser.h"
 #include "sni_extractor.h"
 #include "ja3_fingerprint.h"

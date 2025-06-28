@@ -7,6 +7,7 @@
 #include <regex.h>
 #include <pcre.h>
 #include <ctype.h>
+#include "internal_rules.h"
 #include <fnmatch.h>
 
 // Internal rule storage structure
