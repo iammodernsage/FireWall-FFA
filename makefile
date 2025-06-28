@@ -71,8 +71,5 @@ status:
 reload:
 	python3 cli-tool/firewallctl.py reload
 
-clean:
-	rm -f core-engine/waf
-
 install:
 	bash scripts/install.sh
