@@ -2,7 +2,7 @@
 #define INTERNAL_RULE_H
 
 #include <stdint.h>
-#include <Stddef.h>
+#include <stddef.h>
 
 typedef struct internal_rule_t {
           int id;
