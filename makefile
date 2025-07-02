@@ -16,6 +16,8 @@ OPENSSL_LDFLAGS := $(shell $(PKG_CONFIG) --libs openssl)
 LDFLAGS := $(OPENSSL_LDFLAGS) -lpcre
 CFLAGS += $(OPENSSL_CFLAGS)
 
+LIBS = $(shell pkg-config --libs openssl) -lpthread
+
 # Target name
 
 TARGET := FireWall-FFA

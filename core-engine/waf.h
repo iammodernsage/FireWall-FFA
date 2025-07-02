@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <time.h>
+#include "internal_rule.h"
 
 // Return codes
 #define WAF_OK 0

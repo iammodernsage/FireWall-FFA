@@ -1,5 +1,5 @@
 #ifndef FireWall_FFA_TLS_PARSER_H
-#define FireWall_FFA_TLS_PARSER_H
+#define FIREWALL_FFA_TLS_PARSER_H
 
 #include <stdint.h>
 #include <stddef.h>
@@ -33,6 +33,6 @@ typedef struct {
 } tls_info_t;
 
 // Public API
-int parse_tls(const uint8_t *data, size_t length, tls_info_t *info);
+int parse_tls(const uint8_t *data, size_t len, tls_info_t *info);
 
 #endif // FireWall_FFA_TLS_PARSER_H

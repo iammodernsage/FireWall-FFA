@@ -72,16 +72,16 @@ waf_action_t waf_process_request(const waf_http_request_t *request) {
         tls_info_t tls_info;
         memset(&tls_info, 0, sizeof(tls_info_t));
 
-        if (parse_tls(&request->payload, &tls_info) == 0) {
+        if (parse_tls((const uint8_t *)->payload, &tls_info) == 0) {
             // Log or act based on SNI
-            if (tls_info.sni) {
+            if (strlen(tls_info.sni) > 0) {
                 printf("[*] Extracted SNI: %s\n", tls_info.sni);
                 // You can apply SNI-based rules here as per your convenience
             }
 
             // JA3 fingerprinting
             char ja3_hash[36];  // enough for MD5
-            if (generate_ja3_fingerprint(&tls_info, ja3_hash, sizeof(ja3_hash)) == 0) {
+            if (generate_ja3_fingerprint((const uint8_t *), ja3_hash, sizeof(ja3_hash)) == 0) {
                 printf("[*] JA3 Fingerprint: %s\n", ja3_hash);
                 // Apply fingerprint-based rules or blacklist
             }
