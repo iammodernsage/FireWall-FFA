@@ -18,6 +18,7 @@ waf_config_t global_config;
 waf_rule_t *rules = NULL;
 size_t rules_count = 0;
 pthread_rwlock_t rules_lock;
+void waf_log_match(const match_result_t *match, const waf_request_t *request);
 
 // Statistics
 waf_stats_t waf_stats;
@@ -72,7 +73,7 @@ waf_action_t waf_process_request(const waf_http_request_t *request) {
         tls_info_t tls_info;
         memset(&tls_info, 0, sizeof(tls_info_t));
 
-        if (parse_tls((const uint8_t *)request->payload, request->payload_length, &tls_info) == 0) {
+        if (parse_tls((const uint8_t *)request->payload, request->payload_len, &tls_info) == 0) {
             // Log or act based on SNI
             if (strlen(tls_info.sni) > 0) {
                 printf("[*] Extracted SNI: %s\n", tls_info.sni);
@@ -81,7 +82,7 @@ waf_action_t waf_process_request(const waf_http_request_t *request) {
 
             // JA3 fingerprinting
             char ja3_hash[36];  // enough for MD5
-            if (generate_ja3_fingerprint((const uint8_t *)request->payload, request->payload_length, ja3_hash) == 0) {
+            if (generate_ja3_fingerprint((const uint8_t *)request->payload, request->payload_len, ja3_hash) == 0) {
                 printf("[*] JA3 Fingerprint: %s\n", ja3_hash);
                 // Apply fingerprint-based rules or blacklist
             }
