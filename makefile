@@ -12,11 +12,11 @@ CFLAGS := -Wall -Wextra -O2 -std=c11 \
 
 OPENSSL_CFLAGS := $(shell $(PKG_CONFIG) --cflags openssl)
 OPENSSL_LDFLAGS := $(shell $(PKG_CONFIG) --libs openssl)
+LIBS = -lpthread $(shell pkg-config --libs openssl)
 
 LDFLAGS := $(OPENSSL_LDFLAGS) -lpcre
 CFLAGS += $(OPENSSL_CFLAGS)
 
-LIBS = $(shell pkg-config --libs openssl) -lpthread
 
 # Target name
 
