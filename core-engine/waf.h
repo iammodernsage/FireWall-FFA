@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <time.h>
+#include <pthread.h>
 #include "internal_rule.h"
 
 // Return codes
@@ -49,6 +50,28 @@ typedef struct {
     const char *match_location;  // "header", "body", "uri", etc.
     size_t match_offset;
 } waf_match_t;
+
+typedef struct {
+    char ip[64];
+    const char *payload;
+    size_t payload_len;
+} waf_request_t;
+
+typedef struct {
+    int rule_id;
+    char rule_msg[256];
+    // developers add match metadata as per your req
+} match_result_t;
+
+typedef struct {
+   int rule_id;
+   char msg[256];
+   // developers add rule metadata as per your req
+} internal_rule_t;
+
+int waf_match_string(internal_rule_t *rule, const char *str, const char *location, int *matched);
+
+void waf_log_match(const match_result_t *match, const waf_request_t *request);
 
 // WAF configuration
 typedef struct {
