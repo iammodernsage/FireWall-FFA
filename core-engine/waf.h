@@ -63,8 +63,6 @@ typedef struct {
     // developers add match metadata as per your req
 } match_result_t;
 
-int waf_match_string(internal_rule_t *rule, const char *str, const char *location, int *match);
-
 void waf_log_match(const match_result_t *match, const waf_request_t *request);
 
 // WAF configuration
