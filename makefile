@@ -8,6 +8,7 @@ PKG_CONFIG = pkg-config
 CFLAGS = -Wall -Wextra -O2 -g -std=c11
 CFLAGS += $(shell $(PKG_CONFIG) --cflags openssl)
 CFLAGS += -Icore-engine -Itraffic-inspector
+CFLAGS += -pthread
 
 # Linker flags
 LDFLAGS = $(shell $(PKG_CONFIG) --libs openssl)
