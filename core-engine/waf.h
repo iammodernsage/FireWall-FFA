@@ -95,10 +95,9 @@ waf_stats_t waf_get_stats();
 // Rules engine API
 int waf_rules_init();
 int waf_add_compiled_rule(const waf_rule_t *rule);
-int waf_match_rule(const waf_rule_t *rule, const waf_http_request_t *request, 
-                  waf_match_t *match);
-int waf_match_string(internal_rule_t *rule, const char *str, const char *location,
-                   waf_match_t *match);
+int waf_match_rule(const waf_rule_t *rule, const waf_http_request_t *request, waf_match_t *match);
+int waf_match_string(internal_rule_t *rule, const char *str, const char *location, waf_match_t *match);
+
 int waf_remove_compiled_rule(uint32_t rule_id);
 void waf_rules_cleanup();
 const waf_rule_t *waf_get_rule_by_id(uint32_t rule_id);
