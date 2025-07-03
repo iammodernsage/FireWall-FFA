@@ -14,6 +14,8 @@
 // Global configuration
 waf_config_t global_config;
 
+pthread_rwlock_t rules_lock;
+
 // Rule storage
 waf_rule_t *rules = NULL;
 size_t rules_count = 0;
