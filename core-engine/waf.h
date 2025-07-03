@@ -63,13 +63,7 @@ typedef struct {
     // developers add match metadata as per your req
 } match_result_t;
 
-typedef struct {
-   int rule_id;
-   char msg[256];
-   // developers add rule metadata as per your req
-} internal_rule_t;
-
-int waf_match_string(internal_rule_t *rule, const char *str, const char *location, int *matched);
+int waf_match_string(internal_rule_t *rule, const char *str, const char *location, int *match);
 
 void waf_log_match(const match_result_t *match, const waf_request_t *request);
 

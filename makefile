@@ -1,51 +1,42 @@
 # Makefile for FireWall-FFA
 
-CC := gcc
-PKG_CONFIG := pkg-config
+# Compiler and tools
+CC = gcc
+PKG_CONFIG = pkg-config
 
 # Compiler flags
+CFLAGS = -Wall -Wextra -O2 -g -std=c11
+CFLAGS += $(shell $(PKG_CONFIG) --cflags openssl)
+CFLAGS += -Icore-engine -Itraffic-inspector
 
-CFLAGS := -Wall -Wextra -O2 -std=c11 \
-          -Icore-engine -Itraffic-inspector
+# Linker flags
+LDFLAGS = $(shell $(PKG_CONFIG) --libs openssl)
+LDFLAGS += -lpthread
 
-# Linker flags (dynamically pulled from pkg-config)
+# Source and object files
+SRC_DIRS = core-engine traffic-inspector
+SRCS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+OBJS = $(SRCS:.c=.o)
 
-OPENSSL_CFLAGS := $(shell $(PKG_CONFIG) --cflags openssl)
-OPENSSL_LDFLAGS := $(shell $(PKG_CONFIG) --libs openssl)
-LIBS = -lpthread $(shell pkg-config --libs openssl)
+# Output binary
+TARGET = waf
 
-LDFLAGS := $(OPENSSL_LDFLAGS) -lpcre
-CFLAGS += $(OPENSSL_CFLAGS)
-
-
-# Target name
-
-TARGET := FireWall-FFA
-
-# Source files
-SRC_CORE := core-engine/waf.c \
-            core-engine/waf-rules.c
-
-SRC_INSPECTOR := traffic-inspector/ja3-fingerprint.c \
-                 traffic-inspector/tls-parser.c \
-                 traffic-inspector/sni-extractor.c
-
-SRC := $(SRC_CORE) $(SRC_INSPECTOR)
-OBJ := $(SRC:.c=.o)
-
-# Default build
-
+# Default target
 all: $(TARGET)
 
-# Link object files into final binary
+# Linking
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-$(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $@ $(LDFLAGS)
-
-# Compile C files to object files
-
+# Compilation rule
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+# Clean rule
+clean:
+	rm -f $(TARGET) $(OBJS)
+
+all: $(TARGET)
 
 # Debug build
 
