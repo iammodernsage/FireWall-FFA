@@ -17,6 +17,12 @@ This is an open source & a free for all web application firewall program.
   - It should have command-line usage and should be API ready.
   - No telemetry, no lock-in (Need to work a bit more on this one).
 
+--------------------------------
+
+<div align="center"> <img src="assets/Firewalls.png">
+
+--------------------------------
+
 ## Initial Release 27/06/2025
 
  - The initial phase of this project has been completed, which includes basic structure & reliable functionalities of the firewall.
