@@ -19,7 +19,7 @@ This is an open source & a free for all web application firewall program.
 
 --------------------------------
 
-<div align="center"> <img src="assets/Firewalls.png">
+<div align="center"> <img src="assets/Firewalls.PNG">
 
 --------------------------------
 
