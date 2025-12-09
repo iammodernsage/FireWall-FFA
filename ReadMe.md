@@ -19,7 +19,7 @@ This is an open source & a free for all web application firewall program.
 
 --------------------------------
 
-<div align="center"> <img src="assets/Firewalls.PNG">
+<div align="center"> <img src="assets/Firewalls.PNG"> </div>
 
 --------------------------------
 
@@ -60,9 +60,14 @@ $ make all
 
 $ python cli-tool/firewallctl.py start
 
+<div align="center"> or </div>
+
+$ python3 cli-tool/firewallctl.py start
+
 -----------------------------------------
 
-- Control the firewall using:
+## Control the firewall using:
+ 
  $ firewallctl.py start
  $ firewallctly.py stop
  $ firewallctl.py status
@@ -70,7 +75,8 @@ $ python cli-tool/firewallctl.py start
 
 -----------------------------------------
 
-- Install Systemd Service:
+## Install Systemd Service:
+ 
  $ bash scripts/install.sh
  $ y
  $ sudo systemctl start FireWall-FFA
@@ -94,3 +100,5 @@ $ python cli-tool/firewallctl.py start
 
  - rule-engine/parser.py
  - config/default.yml
+
+--------------------------------------------
