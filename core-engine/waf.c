@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#define _GNU_SOURCE
 #include <pthread.h>
 #include "waf.h"
 #include "internal_rule.h"
