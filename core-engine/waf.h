@@ -64,7 +64,7 @@ typedef struct {
     // developers add match metadata as per your req
 } match_result_t;
 
-void waf_log_match(const waf_match_t *match, const waf_request_t *request);
+void waf_log_match(const waf_match_t *match, const waf_http_request_t *request);
 
 // WAF configuration
 typedef struct {
