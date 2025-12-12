@@ -1,4 +1,4 @@
-This is an open source & a free for all web application firewall program.
+This is an open source & a free for all Next-Generation FireWall.
 
  ## Intro
 
@@ -68,20 +68,27 @@ $ python3 cli-tool/firewallctl.py start
 
 ## Control the firewall using:
  
- $ firewallctl.py start
- $ firewallctly.py stop
- $ firewallctl.py status
- $ firewallctl.py reload
+$ firewallctl.py start
+
+$ firewallctly.py stop
+
+$ firewallctl.py status
+
+$ firewallctl.py reload
 
 -----------------------------------------
 
 ## Install Systemd Service:
  
- $ bash scripts/install.sh
- $ y
- $ sudo systemctl start FireWall-FFA
- $ sudo systemctl enable FireWall-FFA
- $ sudo systemctl status FireWall-FFA *
+$ bash scripts/install.sh
+
+$ y
+
+$ sudo systemctl start FireWall-FFA
+
+$ sudo systemctl enable FireWall-FFA
+
+$ sudo systemctl status FireWall-FFA *
 
 -----------------------------------------
 
