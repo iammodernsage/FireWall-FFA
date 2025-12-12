@@ -5,14 +5,14 @@ CC = gcc
 PKG_CONFIG = pkg-config
 
 # Compiler flags
-CFLAGS = -Wall -Wextra -O2 -g -std=c11
+CFLAGS = -Wall -Wextra -O2 -g -std=gnu11
 CFLAGS += $(shell $(PKG_CONFIG) --cflags openssl)
 CFLAGS += -Icore-engine -Itraffic-inspector
 CFLAGS += -pthread
 
 # Linker flags
 LDFLAGS = $(shell $(PKG_CONFIG) --libs openssl)
-LDFLAGS += -lpthread
+LDFLAGS += -pthread
 
 # Source and object files
 SRC_DIRS = core-engine traffic-inspector

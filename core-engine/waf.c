@@ -21,7 +21,7 @@ pthread_rwlock_t rules_lock;
 waf_rule_t *rules = NULL;
 size_t rules_count = 0;
 pthread_rwlock_t rules_lock;
-void waf_log_match(const match_result_t *match, const waf_request_t *request);
+void waf_log_match(const waf_match_t *match, const waf_request_t *request);
 
 // Statistics
 waf_stats_t waf_stats;
