@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <time.h>
+#define _GNU_SOURCES
 #include <pthread.h>
 #include "internal_rule.h"
 
@@ -63,7 +64,7 @@ typedef struct {
     // developers add match metadata as per your req
 } match_result_t;
 
-void waf_log_match(const match_result_t *match, const waf_request_t *request);
+void waf_log_match(const waf_match_result_t *match, const waf_request_t *request);
 
 // WAF configuration
 typedef struct {
