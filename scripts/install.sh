@@ -9,7 +9,7 @@ mkdir -p bin
 
 # Compile using new engine layout
 echo "[*] Compiling core-engine/waf.c with waf-rules.c and waf_engine.h..."
-gcc core-engine/waf.c core-engine/waf_rules.c -o bin/waf -Wall -Icore-engine
+gcc core-engine/waf.c core-engine/waf-rules.c -o bin/waf -Wall -Icore-engine
 
 # Copy binary back to core-engine for CLI reference
 cp bin/waf core-engine/waf
