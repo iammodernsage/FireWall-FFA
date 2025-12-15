@@ -15,13 +15,13 @@
 
 // Internal rule storage structure
 
-// typedef struct { // add this part when needed (already defined in waf_rule.h)
-   // waf_rule_t rule;
-    // regex_t regex;          // Compiled regex
-    // pcre *pcre_pattern;     // PCRE compiled pattern
-    // pcre_extra *pcre_extra; // PCRE study data
-    // int is_regex;           // Flag for regex patterns
-// } internal_rule_t;
+ typedef struct { // add this part when needed (already defined in waf_rule.h)
+   waf_rule_t rule;
+   regex_t regex;          // Compiled regex
+   pcre *pcre_pattern;     // PCRE compiled pattern
+   pcre_extra *pcre_extra; // PCRE study data
+   int is_regex;           // Flag for regex patterns
+ } internal_rule_t;
 
 static internal_rule_t *internal_rules = NULL;
 static size_t internal_rules_count = 0;
