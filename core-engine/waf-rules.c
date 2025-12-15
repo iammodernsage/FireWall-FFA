@@ -1,5 +1,8 @@
 /*This where the rules are*/
 
+#ifndef FNM_CASEFOLD
+#define FNM_CASEFOLD 0x10
+
 #include "waf.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,13 +14,14 @@
 #include <fnmatch.h>
 
 // Internal rule storage structure
-typedef struct {
-    waf_rule_t rule;
-    regex_t regex;          // Compiled regex
-    pcre *pcre_pattern;     // PCRE compiled pattern
-    pcre_extra *pcre_extra; // PCRE study data
-    int is_regex;           // Flag for regex patterns
-} internal_rule_t;
+
+// typedef struct { // add this part when needed (already defined in waf_rule.h)
+   // waf_rule_t rule;
+    // regex_t regex;          // Compiled regex
+    // pcre *pcre_pattern;     // PCRE compiled pattern
+    // pcre_extra *pcre_extra; // PCRE study data
+    // int is_regex;           // Flag for regex patterns
+// } internal_rule_t;
 
 static internal_rule_t *internal_rules = NULL;
 static size_t internal_rules_count = 0;
@@ -39,7 +43,7 @@ int waf_add_compiled_rule(const waf_rule_t *rule) {
     }
 
     // Reallocate internal rules array
-    internal_rule_t *new_rules = realloc(internal_rules, 
+    internal_rule_t *new_rules = realloc(internal_rules,
                                        (internal_rules_count + 1) * sizeof(internal_rule_t));
     if (new_rules == NULL) {
         return WAF_ERROR;
@@ -263,3 +267,5 @@ int waf_optimize_rules() {
     }
     return WAF_OK;
 }
+
+#endif
