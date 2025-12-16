@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <time.h>
+#include <stdio.h>
 
 #define SNI_EXTRACT_SUCCESS                   0
 #define SNI_EXTRACT_NO_SNI                   -1
