@@ -2,18 +2,12 @@
 #define INTERNAL_RULE_H
 
 #include <stdint.h>
-#include <stddef.h>
 #include <regex.h>
 #include <pcre.h>
 
-/* typedef struct internal_rule_t {
-          int id;
-          char *pattern;
-          char *location;
-          int action;
-   } internal_rule_t; (commenting this because this is causing a hell lot of cofusions*/
+#include <waf.h>
 
-typedef struct internal_rule_t {
+typedef struct internal_rule {
    waf_rule_t rule;   // original rule
 
    regex_t regex;    //POSIX cmpiled regex
