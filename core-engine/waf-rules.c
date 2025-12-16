@@ -66,7 +66,7 @@ static int compile_rule_pattern(internal_rule_t *internal_rule) {
 
     // First try PCRE compilation (more powerful regex)
     internal_rule->pcre_pattern = pcre_compile(
-        internal_rule->rule.pattern,
+        internal_rule->rule->pattern,
         PCRE_CASELESS | PCRE_MULTILINE,
         &error,
         &erroffset,
@@ -84,7 +84,7 @@ static int compile_rule_pattern(internal_rule_t *internal_rule) {
     }
 
     // Fall back to POSIX regex if PCRE fails
-    if (regcomp(&internal_rule->regex, internal_rule->rule.pattern,
+    if (regcomp(&internal_rule->regex, internal_rule->rule->pattern,
                REG_EXTENDED | REG_NOSUB | REG_ICASE) == 0) {
         return WAF_OK;
     }
@@ -102,7 +102,7 @@ int waf_match_rule(const waf_rule_t *rule, const waf_http_request_t *request,
     // Find the internal rule representation
     internal_rule_t *internal_rule = NULL;
     for (size_t i = 0; i < internal_rules_count; i++) {
-        if (internal_rules[i].rule.id == rule->id) {
+        if (internal_rules[i].rule->id == rule->id) {
             internal_rule = &internal_rules[i];
             break;
         }
@@ -169,14 +169,14 @@ int waf_match_string(internal_rule_t *rule, const char *str, const char *locatio
         }
     } else {
         // Simple pattern matching (case insensitive)
-        result = (fnmatch(rule->rule.pattern, str, FNM_CASEFOLD) == 0);
+        result = (fnmatch(rule->rule->pattern, str, FNM_CASEFOLD) == 0);
         if (result) {
             match_ptr = str;
         }
     }
 
     if (result) {
-        match->rule_id = rule->rule.id;
+        match->rule_id = rule->rule->id;
         match->match_location = location;
         match->matched_string = match_ptr;
         match->match_offset = match_ptr ? (size_t)(match_ptr - str) : 0;
@@ -190,7 +190,7 @@ int waf_remove_compiled_rule(uint32_t rule_id) {
     int found = 0;
 
     for (size_t i = 0; i < internal_rules_count; i++) {
-        if (internal_rules[i].rule.id == rule_id) {
+        if (internal_rules[i].rule->id == rule_id) {
             // Free resources
             free_rule_resources(&internal_rules[i]);
 
@@ -237,8 +237,8 @@ void waf_rules_cleanup() {
 // Get rule by ID
 const waf_rule_t *waf_get_rule_by_id(uint32_t rule_id) {
     for (size_t i = 0; i < internal_rules_count; i++) {
-        if (internal_rules[i].rule.id == rule_id) {
-            return &internal_rules[i].rule;
+        if (internal_rules[i].rule->id == rule_id) {
+            return internal_rules[i].rule;
         }
     }
     return NULL;
