@@ -37,7 +37,7 @@ typedef struct {
 } waf_http_request_t;
 
 // WAF rule definition
-typedef struct {
+typedef struct waf_rule {
     uint32_t id;
     waf_action_t action;
     const char *pattern;  // Regex pattern or other matching criteria

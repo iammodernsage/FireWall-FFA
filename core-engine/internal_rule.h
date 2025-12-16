@@ -5,7 +5,7 @@
 #include <regex.h>
 #include <pcre.h>
 
-#include <waf.h>
+typedef struct waf_rule waf_rule_t;
 
 typedef struct internal_rule {
    waf_rule_t rule;   // original rule
