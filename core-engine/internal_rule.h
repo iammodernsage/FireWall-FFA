@@ -8,7 +8,7 @@
 typedef struct waf_rule waf_rule_t;
 
 typedef struct internal_rule {
-   waf_rule_t rule;   // original rule
+   waf_rule_t *rule;   // original rule
 
    regex_t regex;    //POSIX cmpiled regex
    pcre *pcre_pattern;   //PCRE compiled pattern
