@@ -17,7 +17,7 @@ typedef struct {
 
 // Function prototypes
 static int parse_tls_record(tls_buffer_t *buf, tls_info_t *info);
-static int parse_client_hello(tls_buffer_t *buf, tls_info_t *info);
+//static int parse_client_hello(tls_buffer_t *buf, tls_info_t *info);
 static int read_uint8(tls_buffer_t *buf, uint8_t *value);
 static int read_uint16(tls_buffer_t *buf, uint16_t *value);
 static int read_uint24(tls_buffer_t *buf, uint32_t *value);
@@ -26,7 +26,7 @@ static int skip_bytes(tls_buffer_t *buf, size_t length);
 
 // Main TLS parsing function
 int parse_tls(const uint8_t *data, size_t len, tls_info_t *info) {
-    if (!data || length < TLS_HEADER_LENGTH || !info) {
+    if (!data || len < TLS_HEADER_LENGTH || !info) {
         return TLS_PARSE_ERROR;
     }
 
@@ -110,7 +110,7 @@ static int parse_tls_record(tls_buffer_t *buf, tls_info_t *info) {
     if (info->cipher_suites_count > MAX_CIPHER_SUITES) {
         info->cipher_suites_count = MAX_CIPHER_SUITES;
     }
-    for (int i = 0; i < info->cipher_suites_count; i++) {
+    for (size_t i = 0; i < info->cipher_suites_count; i++) {
         if (!read_uint16(buf, &info->cipher_suites[i])) {
             return TLS_PARSE_ERROR;
         }
