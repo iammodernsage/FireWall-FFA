@@ -20,7 +20,7 @@ static int parse_tls_record(tls_buffer_t *buf, tls_info_t *info);
 //static int parse_client_hello(tls_buffer_t *buf, tls_info_t *info);
 static int read_uint8(tls_buffer_t *buf, uint8_t *value);
 static int read_uint16(tls_buffer_t *buf, uint16_t *value);
-static int read_uint24(tls_buffer_t *buf, uint32_t *value);
+//static int read_uint24(tls_buffer_t *buf, uint32_t *value);
 static int read_bytes(tls_buffer_t *buf, uint8_t *dest, size_t length);
 static int skip_bytes(tls_buffer_t *buf, size_t length);
 
@@ -136,7 +136,7 @@ static int parse_tls_record(tls_buffer_t *buf, tls_info_t *info) {
         while (buf->position + 4 <= extensions_end) {
             uint16_t extension_type;
             uint16_t extension_length;
- 
+
             if (!read_uint16(buf, &extension_type) ||
                 !read_uint16(buf, &extension_length)) {
                 return TLS_PARSE_ERROR;
