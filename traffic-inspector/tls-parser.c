@@ -33,7 +33,7 @@ int parse_tls(const uint8_t *data, size_t len, tls_info_t *info) {
 
     tls_buffer_t buf = {
         .data = (uint8_t *)data,
-        .length = length,
+        .length = len,
         .position = 0
     };
 
