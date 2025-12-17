@@ -64,6 +64,10 @@ $ python cli-tool/firewallctl.py start
 
 $ python3 cli-tool/firewallctl.py start
 
+- extra
+
+$ pip3 install PyYAML (if PyYAML pakage is not installed)
+
 -----------------------------------------
 
 ## Control the firewall using:
